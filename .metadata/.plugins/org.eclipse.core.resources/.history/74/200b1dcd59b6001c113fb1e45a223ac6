@@ -1,0 +1,5 @@
+package com.jpa.exp.entity;
+
+public class User {
+
+}
