@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,6 +41,12 @@ public class BookController {
     public Book deleteBook(@PathVariable("id") int id) {
         Book book = bookService.deleteBook(id);
         return book;
+    }
+
+    // Sending data from client to perform PUT operation i.e Update
+    @PutMapping("/books/{id}")
+    public void update(@RequestBody Book book, @PathVariable("id") int id) {
+        bookService.update(book, id);
     }
 
 }
