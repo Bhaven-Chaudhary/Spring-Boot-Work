@@ -1,0 +1,7 @@
+Rest API created using Spring boot, connected to sql database and request 
+to API are sent using Postman.
+
+It has two table BOOK and Author maped to gether.
+API performs the CURD operation with the books.
+
+It also has part to save file provided by user.

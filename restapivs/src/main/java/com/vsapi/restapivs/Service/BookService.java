@@ -1,41 +1,41 @@
 package com.vsapi.restapivs.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import com.vsapi.restapivs.Dao.BookRepository;
 import com.vsapi.restapivs.Entity.Book;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BookService {
 
-    List<Book> bookList = new ArrayList<Book>();
+    @Autowired
+    private BookRepository bookRepository;
 
     public List<Book> getAllBook() {
-        return bookList;
+        List<Book> books = (List<Book>) bookRepository.findAll();
+        return books;
     }
 
-    public boolean addBook(Book book) {
-        boolean isadded = bookList.add(book);
-        return isadded;
+    public Book getBook(int id) {
+        Book book = bookRepository.findById(id);
+        return book;
     }
 
-    public Book deleteBook(int id) {
-        Book booktodelete = bookList.stream().filter(book -> id == (book.getId())).findAny().get();
-        bookList.remove(booktodelete);
-        return booktodelete;
+    public Book addBook(Book book) {
+        Book savedBook = bookRepository.save(book);
+        return savedBook;
+    }
+
+    public void deleteBook(int id) {
+        bookRepository.deleteById(id);
     }
 
     public void update(Book book, int id) {
-        bookList = bookList.stream().map(obj -> {
-            if (obj.getId() == id) {
-                obj.setAuthor(book.getAuthor());
-                obj.setTitle(book.getTitle());
-            }
-            return obj;
-        }).collect(Collectors.toList());
+        book.setId(id);
+        bookRepository.save(book);
     }
 
 }

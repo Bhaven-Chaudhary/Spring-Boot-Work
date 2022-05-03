@@ -1,0 +1,6 @@
+Rest api created and implemented the spring spcurity and JWT Authentication in it.
+We are using fake database here. so user name password is bhaven,bhaven123
+User sent request to "/token" with body having username and password and get back the token.
+Now use token with header to accesses protected pages ("/welcome" and ".getusers").
+
+Sending requests from postman.

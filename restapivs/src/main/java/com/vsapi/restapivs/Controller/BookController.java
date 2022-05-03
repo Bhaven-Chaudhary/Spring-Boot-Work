@@ -6,6 +6,8 @@ import com.vsapi.restapivs.Entity.Book;
 import com.vsapi.restapivs.Service.BookService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,32 +23,68 @@ public class BookController {
 
     // sending data to client i.e Get operatin (Read)
     @GetMapping("/books")
-    public List<Book> book() {
+    public ResponseEntity<List<Book>> getAllbooks() {
+
         List<Book> allBook = bookService.getAllBook();
-        return allBook;
+
+        if (allBook.size() <= 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.CREATED).body(allBook);
+        }
+
+    }
+
+    // sending data to client i.e Get operatin (Read)
+    @GetMapping("/books/{id}")
+    public ResponseEntity<Book> getBookById(@PathVariable("id") int id) {
+        try {
+            Book book = bookService.getBook(id);
+            return ResponseEntity.status(HttpStatus.CREATED).body(book);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     // Getting data from client to add i.e Post operation (Create)
     @PostMapping("/books")
-    public String addBook(@RequestBody Book book) {
-        boolean addedBook = bookService.addBook(book);
-        if (addedBook) {
-            return "New Book Added";
+    public ResponseEntity<String> addBook(@RequestBody Book book) {
+
+        try {
+            bookService.addBook(book);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        return "Book Not Added";
+
     }
 
     // Sending Delete request from the client i.e Delete operation
     @DeleteMapping("/books/{id}")
-    public Book deleteBook(@PathVariable("id") int id) {
-        Book book = bookService.deleteBook(id);
-        return book;
+    public ResponseEntity<Void> deleteBook(@PathVariable("id") int id) {
+        try {
+            bookService.deleteBook(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
     // Sending data from client to perform PUT operation i.e Update
     @PutMapping("/books/{id}")
-    public void update(@RequestBody Book book, @PathVariable("id") int id) {
-        bookService.update(book, id);
+    public ResponseEntity<Void> update(@RequestBody Book book, @PathVariable("id") int id) {
+
+        try {
+            bookService.update(book, id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
 }

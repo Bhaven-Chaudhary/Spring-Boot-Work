@@ -1,0 +1,12 @@
+from video 8 to 9 :
+Springbootone:- spring web project.
+
+from video 10 to  12:
+bootjpaexample : orm , database, jpa
+
+
+from video 18 to 25 :
+restapivs : creating REST api using vs code
+
+from video 70 to :
+springbootJWT : inplementing JWT authentication in the code
